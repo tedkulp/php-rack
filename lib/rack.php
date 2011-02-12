@@ -113,14 +113,16 @@ class Rack
 		return false;
 	}
 	
-	public static function add($name, $file = null)
+	public static function add($name, $file = null, $object = null)
 	{
 		if (!self::$ob_started)
 			self::init();
 
 		if (!self::$constructed)
 		{
-			self::$middleware[$name] = true;
+			if ($object == null)
+				$object = true;
+			self::$middleware[$name] = $object;
 			self::require_file($file);
 			return true;
 		}
@@ -249,7 +251,8 @@ class Rack
 		$previous = null;
 		foreach($middleware as $key => $value)
 		{
-			self::$middleware[$key] = new $key($previous);
+			if (is_bool($value) && $value == true)
+				self::$middleware[$key] = new $key($previous);
 			$previous =& self::$middleware[$key];
 		}
 		
