@@ -42,27 +42,27 @@ class Request
 		return file_get_contents($this->env['rack.input']);
 	}
 
-	public function script_name()
+	public function scriptName()
 	{
 		return $this->env['SCRIPT_NAME'];
 	}
 
-	public function path_info()
+	public function pathInfo()
 	{
 		return $this->env['PATH_INFO'];
 	}
 
-	public function request_method()
+	public function requestMethod()
 	{
 		return $this->env['REQUEST_METHOD'];
 	}
 
-	public function query_string()
+	public function queryString()
 	{
 		return $this->env['QUERY_STRING'];
 	}
 
-	public function content_length()
+	public function contentLength()
 	{
 		return $this->env['CONTENT_LENGTH'];
 	}
@@ -92,12 +92,12 @@ class Request
 			return $this->env['rack.url_scheme'];
 	}
 
-	public function is_ssl()
+	public function isSsl()
 	{
 		return $this->scheme() == 'https';
 	}
 
-	public function host_with_port()
+	public function hostWithPort()
 	{
 		if (isset($this->env['HTTP_X_FORWARDED_HOST']))
 		{
@@ -116,16 +116,16 @@ class Request
 
 	public function port()
 	{
-		if (count(explode(':', $this->host_with_port())) > 1)
+		if (count(explode(':', $this->hostWithPort())) > 1)
 		{
-			$ary = explode(':', $this->host_with_port());
+			$ary = explode(':', $this->hostWithPort());
 			return $ary[1];
 		}
 		else if (isset($this->env['HTTP_X_FORWARDED_PORT']))
 		{
 			return (int)$this->env['HTTP_X_FORWARDED_PORT'];
 		}
-		else if ($this->is_ssl())
+		else if ($this->isSsl())
 		{
 			return 443;
 		}
@@ -137,40 +137,40 @@ class Request
 
 	public function host()
 	{
-		return preg_replace('/:\d\z/', '', $this->host_with_port());
+		return preg_replace('/:\d\z/', '', $this->hostWithPort());
 	}
 
-	public function is_delete()
+	public function isDelete()
 	{
-		return $this->request_method() == 'DELETE';
+		return $this->requestMethod() == 'DELETE';
 	}
 
-	public function is_get()
+	public function isGet()
 	{
-		return $this->request_method() == 'GET';
+		return $this->requestMethod() == 'GET';
 	}
 
-	public function is_head()
+	public function isHead()
 	{
-		return $this->request_method() == 'HEAD';
+		return $this->requestMethod() == 'HEAD';
 	}
 
-	public function is_options()
+	public function isOptions()
 	{
-		return $this->request_method() == 'OPTIONS';
+		return $this->requestMethod() == 'OPTIONS';
 	}
 
-	public function is_post()
+	public function isPost()
 	{
-		return $this->request_method() == 'POST';
+		return $this->requestMethod() == 'POST';
 	}
 
-	public function is_put()
+	public function isPut()
 	{
-		return $this->request_method() == 'PUT';
+		return $this->requestMethod() == 'PUT';
 	}
 
-	public function is_trace()
+	public function isTrace()
 	{
 		return $this->request_method() == 'TRACE';
 	}
@@ -185,17 +185,17 @@ class Request
 		return $this->referer();
 	}
 
-	public function user_agent()
+	public function userAgent()
 	{
 		return $this->env['HTTP_USER_AGENT'];
 	}
 
-	public function is_xhr()
+	public function isXhr()
 	{
 		return isset($this->env['HTTP_X_REQUESTED_WITH']) && $this->env['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 	}
 
-	public function base_url()
+	public function baseUrl()
 	{
 		$url = $this->scheme() . '://';
 		$url .= $this->host();
@@ -210,20 +210,20 @@ class Request
 
 	public function url()
 	{
-		return $this->base_url() . $this->fullpath();
+		return $this->baseUrl() . $this->fullpath();
 	}
 
 	public function path()
 	{
-		return $this->script_name() . $this->path_info();
+		return $this->scriptName() . $this->pathInfo();
 	}
 
 	public function fullpath()
 	{
-		return $this->query_string() ? $this->path() : $this->path() . '?' . $this->query_string();
+		return $this->queryString() ? $this->path() : $this->path() . '?' . $this->queryString();
 	}
 
-	public function accept_encoding()
+	public function acceptEncoding()
 	{
 		//TODO: Fix me
 	}

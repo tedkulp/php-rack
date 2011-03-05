@@ -89,12 +89,14 @@ class Rack
 		504 => 'Gateway Time-out'
 	);
 	
-	public static function init($middleware = array()) {
-		
+	public static function init($middleware = array())
+	{
 		// easy initialization
-		if ( !empty($middleware) && is_array($middleware) ) {
+		if (!empty($middleware) && is_array($middleware))
+		{
 			$ware = array();
-			foreach( $middleware as $key => $value ) $ware[$value] = true;
+			foreach ($middleware as $key => $value)
+				$ware[$value] = true;
 			self::$middleware = array_merge(self::$middleware, $ware);
 		}
 		
@@ -122,14 +124,15 @@ class Rack
 		{
 			if ($object == null)
 				$object = true;
+
 			self::$middleware[$name] = $object;
-			self::require_file($file);
+			self::requireFile($file);
 			return true;
 		}
 		return false;
 	}
 	
-	public static function insert_before($target, $name, $file = null)
+	public static function insertBefore($target, $name, $file = null)
 	{
 		if (!self::$constructed)
 		{
@@ -147,14 +150,14 @@ class Rack
 					$middleware[$keys[$i]] =& self::$middleware[$keys[$i]];
 				}
 				self::$middleware = $middleware;
-				self::require_file($file);
+				self::requireFile($file);
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public static function insert_after($target, $name, $file = null)
+	public static function insertAfter($target, $name, $file = null)
 	{
 		if (!self::$constructed)
 		{
@@ -172,7 +175,7 @@ class Rack
 					}
 				}
 				self::$middleware = $middleware;
-				self::require_file($file);
+				self::requireFile($file);
 				return false;
 			}
 		}
@@ -200,14 +203,14 @@ class Rack
 					}
 				}
 				self::$middleware = $middleware;
-				self::require_file($file);
+				self::requireFile($file);
 				return false;
 			}
 		}
 		return false;
 	}
 	
-	public static function not_found()
+	public static function notFound()
 	{
 		return array(404, array("Content-Type" => "text/html"), array("Not Found"));
 	}
@@ -278,7 +281,7 @@ class Rack
 
 		foreach ($headers as $key => $value)
 		{
-			self::send_header($key, $value, $send_output);
+			self::sendHeader($key, $value, $send_output);
 		}
 		
 		// output any buffered content from middlewares
@@ -310,7 +313,7 @@ class Rack
 		return array($status, $headers, $body);
 	}
 
-	private static function send_header($key, $value = '', $send_output = true)
+	private static function sendHeader($key, $value = '', $send_output = true)
 	{
 		$to_send = $key;
 		if ($value != '')
@@ -321,7 +324,7 @@ class Rack
 			header($to_send);
 	}
 	
-	private static function require_file($file = null)
+	private static function requireFile($file = null)
 	{
 		if ($file != null && is_file($file))
 		{

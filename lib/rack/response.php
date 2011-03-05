@@ -76,7 +76,7 @@ class Response
 		return array($this->status, $this->headers, $this->body);
 	}
 
-	public function is_empty()
+	public function isEmpty()
 	{
 		return count($this->body) == 0;
 	}

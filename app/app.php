@@ -2,11 +2,10 @@
 
 use \Rack\Rack;
 
-class App {
-	
-	function call (&$env)
+class App
+{
+	function call(&$env)
 	{
-		var_dump($env);
 		if ($env["PATH_INFO"] == "/")
 		{
 			return array(200, array("Content-Type" => "text/html"), array("Welcome Home"));
@@ -15,9 +14,7 @@ class App {
 		{
 			return array(200, array("Content-Type" => "text/html"), array("Rack-style middleware is cool."));
 		}
-		return Rack::not_found();
+		return Rack::notFound();
 	}
 	
 }
-
-?>

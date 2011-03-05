@@ -1,13 +1,14 @@
 <?php
 
-class Format {
-	
-	function __construct (&$app) {
+class Format
+{
+	function __construct(&$app)
+	{
 		$this->app =& $app;
 	}
 	
-	function call (&$env) {
-		
+	function call (&$env)
+	{
 		// available formats
 		$formats = array("txt" => "text/plain", "xml" => "application/xml");
 		
@@ -15,8 +16,10 @@ class Format {
 		list($status, $headers, $body) = $this->app->call($env);
 		
 		// do something with response headers
-		foreach( $formats as $key => $value ) {
-			if ( !empty($env["request.vars"]["format"]) && $env["request.vars"]["format"] == $key ) {
+		foreach ($formats as $key => $value)
+		{
+			if (!empty($env["request.vars"]["format"]) && $env["request.vars"]["format"] == $key)
+			{
 				$headers["Content-Type"] = $value;
 			}
 		}
@@ -25,5 +28,3 @@ class Format {
 	}
 	
 }
-
-?>
