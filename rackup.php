@@ -1,10 +1,10 @@
 <?php
 
-use \Rack\Rack;
+use \rack\Rack;
 
 define("ROOT", dirname(__FILE__));
 
-require(ROOT."/lib/rack.php");
+require(ROOT."/lib/Rack.php");
 
 // add some middlewares
 Rack::add("Format", ROOT."/app/format.php");

@@ -26,7 +26,7 @@
 
 */
 
-namespace Rack\Middleware;
+namespace rack\middleware;
 
 /**
  * Middleware to give the total execution time. Make sure

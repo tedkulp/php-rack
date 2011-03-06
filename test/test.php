@@ -1,9 +1,9 @@
 <?php
 
-require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'rack.php');
-require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'rack' . DIRECTORY_SEPARATOR . 'middleware' . DIRECTORY_SEPARATOR . 'exec_time.php');
+require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'Rack.php');
+require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'lib' . DIRECTORY_SEPARATOR . 'rack' . DIRECTORY_SEPARATOR . 'middleware' . DIRECTORY_SEPARATOR . 'ExecTime.php');
 
-use Rack\Rack;
+use rack\Rack;
 
 class RackTest extends PHPUnit_Framework_TestCase
 {
@@ -38,7 +38,7 @@ class RackTest extends PHPUnit_Framework_TestCase
 	public function testInsertBeforeMiddleware()
 	{
 		Rack::add('MockApp', MockApp);
-		Rack::insert_before('MockApp', 'MockMiddleware', MockMiddleware);
+		Rack::insertBefore('MockApp', 'MockMiddleware', MockMiddleware);
 		list($status, $headers, $body) = Rack::run(array(), false);
 		$this->assertEquals('TEST OUTPUT', $body[0]);
 	}
@@ -46,7 +46,7 @@ class RackTest extends PHPUnit_Framework_TestCase
 	public function testInsertAfterMiddleware()
 	{
 		Rack::add('MockMiddleware', MockMiddleware);
-		Rack::insert_after('MockMiddleware', 'MockApp', MockApp);
+		Rack::insertAfter('MockMiddleware', 'MockApp', MockApp);
 		list($status, $headers, $body) = Rack::run(array(), false);
 		$this->assertEquals('TEST OUTPUT', $body[0]);
 	}

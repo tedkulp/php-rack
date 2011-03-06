@@ -26,16 +26,16 @@
 
 */
 
-namespace Rack;
+namespace rack;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('RACK_LIB_ROOT', dirname(__FILE__));
 if (!defined('RACK_ROOT'))
 	define('RACK_ROOT', dirname(dirname(__FILE__)));
 
-include_once(RACK_LIB_ROOT . DS . 'rack' . DS . 'session.php');
-include_once(RACK_LIB_ROOT . DS . 'rack' . DS . 'request.php');
-include_once(RACK_LIB_ROOT . DS . 'rack' . DS . 'response.php');
+include_once(RACK_LIB_ROOT . DS . 'rack' . DS . 'Session.php');
+include_once(RACK_LIB_ROOT . DS . 'rack' . DS . 'Request.php');
+include_once(RACK_LIB_ROOT . DS . 'rack' . DS . 'Response.php');
 
 class Rack
 {

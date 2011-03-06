@@ -26,7 +26,7 @@
 
 */
 
-namespace Rack;
+namespace rack;
 
 class Session implements \Iterator, \ArrayAccess
 {
