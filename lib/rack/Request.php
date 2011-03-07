@@ -28,7 +28,7 @@
 
 namespace rack;
 
-class Request
+class Request implements \ArrayAccess
 {
 	protected $env = null;
 
@@ -208,6 +208,38 @@ class Request
 		return $url;
 	}
 
+	public function get()
+	{
+		if ($this->env['rack.request.query_string'] !== $this->queryString())
+		{
+			$this->env["rack.request.query_string"] = $this->queryString();
+			$this->env["rack.request.query_hash"] = $_GET;
+		}
+
+		return $this->env["rack.request.query_hash"];
+	}
+
+	public function post()
+	{
+		if (!$this->env["rack.input"])
+			return array();
+		else if ($this->env["rack.request.form_input"] == $this->env["rack.input"])
+			return $this->env["rack.request.form_hash"];
+		else
+		{
+			$this->env["rack.request.form_input"] = $this->env["rack.input"];
+			$form_vars = stream_get_contents($this->env["rack.input"]);
+			$this->env["rack.request.form_vars"] = $form_vars;
+			$this->env["rack.request.form_hash"] = $_POST;
+			return $this->env["rack.request.form_hash"];
+		}
+	}
+
+	public function params()
+	{
+		return array_merge($this->get(), $this->post());
+	}
+
 	public function url()
 	{
 		return $this->baseUrl() . $this->fullpath();
@@ -239,6 +271,58 @@ class Request
 		{
 			return $this->env['REMOTE_ADDR'];
 		}
+	}
+	
+	/**
+	 * Used for the ArrayAccessor implementation.
+	 *
+	 * @param string The key to set with the given value
+	 * @param mixed The value to set for the given key
+	 * @return void
+	 */
+	function offsetSet($key, $value)
+	{
+		$params = $this->params();
+		if (isset($params[$key]))
+			$params[$key] = $value;
+	}
+
+	/**
+	 * Used for the ArrayAccessor implementation.
+	 *
+	 * @param string The key to look up
+	 * @return mixed The value of the $obj['field']
+	 */
+	function offsetGet($key)
+	{
+		$params = $this->params();
+		if (isset($params[$key]))
+			return $params[$key];
+	}
+
+	/**
+	 * Used for the ArrayAccessor implementation.
+	 *
+	 * @param string The key to unset
+	 * @return bool Whether or not it does exist
+	 */
+	function offsetUnset($key)
+	{
+		$params = $this->params();
+		if (isset($params[$key]))
+			unset($params[$key]);
+	}
+
+	/**
+	 * Used for the ArrayAccessor implementation.
+	 *
+	 * @param string The key to lookup to see if it exists
+	 * @return bool Whether or not it does exist
+	 **/
+	function offsetExists($offset)
+	{
+		$params = $this->params();
+		return isset($params[$offset]);
 	}
 	
 }
