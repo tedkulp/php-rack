@@ -218,21 +218,21 @@ class Rack
 	public static function run(array $server_vars = array(), $send_output = true)
 	{
 		// build ENV (allow passing for testing)
-		self::$env = $_SERVER + $server_vars;
-		if (strstr($_SERVER['REQUEST_URI'], '?'))
+		self::$env = array_merge($_SERVER, $server_vars);
+		if (strstr(self::$env['REQUEST_URI'], '?'))
 		{
-			self::$env["PATH_INFO"] = substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'));
+			self::$env["PATH_INFO"] = substr(self::$env['REQUEST_URI'], 0, strpos(self::$env['REQUEST_URI'], '?'));
 		}
 		else
 		{	
-			self::$env["PATH_INFO"] = $_SERVER['REQUEST_URI'];
+			self::$env["PATH_INFO"] = self::$env['REQUEST_URI'];
 		}
 		self::$env['PATH_INFO'] = rtrim(self::$env['PATH_INFO'], '/');
 
 		self::$env['rack.version'] = array(1,1);
 		self::$env['rack.url_scheme'] = 'http';
-		if ((isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') ||
-			(isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443))
+		if ((isset(self::$env['HTTPS']) && strtolower(self::$env['HTTPS']) == 'on') ||
+			(isset(self::$env['SERVER_PORT']) && self::$env['SERVER_PORT'] == 443))
 			self::$env['rack.url_scheme'] = 'https';
 
 		self::$env['rack.multithread'] = false;
@@ -247,7 +247,7 @@ class Rack
 		{
 			unset($_SERVER[$key]);
 		}
-		
+
 		// construct middlewares
 		self::$constructed = true;
 		$middleware = array_reverse(self::$middleware);
