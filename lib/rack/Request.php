@@ -210,6 +210,8 @@ class Request implements \ArrayAccess
 
 	public function get()
 	{
+		$this->env["rack.request.query_hash"] = array();
+
 		if ($this->env['rack.request.query_string'] !== $this->queryString())
 		{
 			$this->env["rack.request.query_string"] = $this->queryString();
