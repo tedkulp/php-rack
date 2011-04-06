@@ -200,7 +200,7 @@ class Request implements \ArrayAccess
 		$url = $this->scheme() . '://';
 		$url .= $this->host();
 
-		if (($this->scheme() == 'https' && $this->port() != 443) || ($this->scheme() == 'http' && $this->port != 80))
+		if (($this->scheme() == 'https' && $this->port() != 443) || ($this->scheme() == 'http' && $this->port() != 80))
 		{
 			$url .= ':' . $this->port();
 		}
@@ -244,17 +244,17 @@ class Request implements \ArrayAccess
 
 	public function url()
 	{
-		return $this->baseUrl() . $this->fullpath();
+		return $this->baseUrl() . $this->pathInfo();
 	}
 
 	public function path()
 	{
-		return $this->scriptName() . $this->pathInfo();
+		return $this->pathInfo();
 	}
 
 	public function fullpath()
 	{
-		return (strlen($this->queryString() == 0) ? $this->path() : $this->path() . '?' . $this->queryString());
+		return (strlen($this->queryString()) == 0 ? $this->path() : $this->path() . '?' . $this->queryString());
 	}
 
 	public function acceptEncoding()
