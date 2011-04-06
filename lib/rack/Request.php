@@ -254,7 +254,7 @@ class Request implements \ArrayAccess
 
 	public function fullpath()
 	{
-		return $this->queryString() ? $this->path() : $this->path() . '?' . $this->queryString();
+		return (strlen($this->queryString() == 0) ? $this->path() : $this->path() . '?' . $this->queryString());
 	}
 
 	public function acceptEncoding()
