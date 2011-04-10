@@ -249,12 +249,12 @@ class Request implements \ArrayAccess
 
 	public function path()
 	{
-		return $this->pathInfo();
+		return str_replace(dirname($this->scriptName()) . '/', '', $this->pathInfo());
 	}
 
 	public function fullpath()
 	{
-		return (strlen($this->queryString()) == 0 ? $this->path() : $this->path() . '?' . $this->queryString());
+		return (strlen($this->queryString()) == 0 ? $this->pathInfo() : $this->pathInfo() . '?' . $this->queryString());
 	}
 
 	public function acceptEncoding()
