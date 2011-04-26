@@ -46,12 +46,16 @@ class ExecTime
 		// call the next middleware in the stack
 		list($status, $headers, $body) = $this->app->call($env);
 
-		$end_time = microtime(true);
+		$request = new \rack\Request($env);
+		if (!$request->isXhr())
+		{
+			$end_time = microtime(true);
 
-		$memory = (function_exists('memory_get_usage')?memory_get_usage():0);
-		$memory_peak = (function_exists('memory_get_peak_usage')?memory_get_peak_usage():0);
+			$memory = (function_exists('memory_get_usage')?memory_get_usage():0);
+			$memory_peak = (function_exists('memory_get_peak_usage')?memory_get_peak_usage():0);
 
-		$body[] = "<!-- " . sprintf('%f:%s:%s', $end_time - $start_time, number_format($memory), number_format($memory_peak)) . " -->";
+			$body[] = "<!-- " . sprintf('%f:%s:%s', $end_time - $start_time, number_format($memory), number_format($memory_peak)) . " -->";
+		}
 
 		return array($status, $headers, $body);
 	}
