@@ -28,8 +28,10 @@
 
 namespace rack;
 
-define('DS', DIRECTORY_SEPARATOR);
-define('RACK_LIB_ROOT', dirname(__FILE__));
+if (!defined('DS'))
+	define('DS', DIRECTORY_SEPARATOR);
+if (!defined('RACK_LIB_ROOT'))
+	define('RACK_LIB_ROOT', dirname(__FILE__));
 if (!defined('RACK_ROOT'))
 	define('RACK_ROOT', dirname(dirname(__FILE__)));
 
