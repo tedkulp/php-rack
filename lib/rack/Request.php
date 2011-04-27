@@ -212,7 +212,7 @@ class Request implements \ArrayAccess
 	{
 		$this->env["rack.request.query_hash"] = array();
 
-		if ($this->env['rack.request.query_string'] !== $this->queryString())
+		if (!isset($this->env['rack.request.query_string']) || $this->env['rack.request.query_string'] !== $this->queryString())
 		{
 			$this->env["rack.request.query_string"] = $this->queryString();
 			$this->env["rack.request.query_hash"] = $_GET;
@@ -225,7 +225,7 @@ class Request implements \ArrayAccess
 	{
 		if (!$this->env["rack.input"])
 			return array();
-		else if ($this->env["rack.request.form_input"] == $this->env["rack.input"])
+		else if (isset($this->env["rack.request.form_input"]) && $this->env["rack.request.form_input"] == $this->env["rack.input"])
 			return $this->env["rack.request.form_hash"];
 		else
 		{
