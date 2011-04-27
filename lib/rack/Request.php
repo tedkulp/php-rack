@@ -274,7 +274,12 @@ class Request implements \ArrayAccess
 			return $this->env['REMOTE_ADDR'];
 		}
 	}
-	
+
+	public function isLocal()
+	{
+		return ($this->ip() == '127.0.0.1');
+	}
+
 	/**
 	 * Used for the ArrayAccessor implementation.
 	 *
