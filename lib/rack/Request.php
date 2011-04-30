@@ -59,7 +59,7 @@ class Request implements \ArrayAccess
 
 	public function queryString()
 	{
-		return $this->env['QUERY_STRING'];
+		return isset($this->env['QUERY_STRING']) ? $this->env['QUERY_STRING'] : '';
 	}
 
 	public function contentLength()
