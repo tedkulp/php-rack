@@ -334,7 +334,7 @@ class Rack
 		}
 	}
 
-	public static function http_status_codes()
+	public static function httpStatusCodes()
 	{
 		return self::$_statuses;
 	}
